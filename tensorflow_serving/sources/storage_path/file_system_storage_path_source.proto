@@ -74,4 +74,7 @@ message FileSystemStoragePathSourceConfig {
   // (Otherwise, it will emit a warning and keep pinging the file system to
   // check for a version to appear later.)
   bool fail_if_zero_versions_at_startup = 4;
+
+  // If true, don't unload all versions of a model if the file system is empty.
+  bool refuse_last_unload = 6;
 }

@@ -384,6 +384,11 @@ Status FileSystemStoragePathSource::PollFileSystemAndInvokeCallback() {
   for (const auto& entry : versions_by_servable_name) {
     const string& servable = entry.first;
     const std::vector<ServableData<StoragePath>>& versions = entry.second;
+    if (versions.empty() && config_.refuse_last_unload()) {
+      LOG(ERROR) << "Refusing to unload all versions for Servable: "
+                 << servable;
+      continue;
+    }
     for (const ServableData<StoragePath>& version : versions) {
       if (version.status().ok()) {
         VLOG(1) << "File-system polling update: Servable:" << version.id()
